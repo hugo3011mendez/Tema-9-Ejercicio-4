@@ -36,11 +36,13 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
         // Creo las etiquetas
         lblSigno = new JLabel("+");
         lblSigno.setLocation(210, 15);
+        lblSigno.setFont(new Font("Arial", Font.BOLD, 16));
         lblSigno.setSize(lblSigno.getPreferredSize());
         add(lblSigno);
 
         lblResultado = new JLabel("=");
         lblResultado.setLocation(425, 15);
+        lblResultado.setFont(new Font("Arial", Font.PLAIN, 14));
         lblResultado.setSize(lblResultado.getPreferredSize());
         add(lblResultado);
 
@@ -55,6 +57,7 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
         rbSuma.setLocation(100, 60);
         rbSuma.setSize(rbSuma.getPreferredSize());
         rbSuma.addItemListener(this);
+        rbSuma.setSelected(true);
         add(rbSuma);
 
         rbResta = new JRadioButton("Resta");
@@ -96,6 +99,28 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
 
     @Override
     public void itemStateChanged(ItemEvent e) {
+        // Cuando se active cualquier RadioButton, el resultado se limpiará
+        lblResultado.setText("=");
+        lblResultado.setSize(lblResultado.getPreferredSize());
 
+        if (e.getStateChange() == ItemEvent.SELECTED) { // Aquí compruebo cuando un RadioButton ha sido seleccionado
+            // Acciones a realizar cuando se pulsan los RadioButton
+            if(e.getSource() == rbSuma){ 
+                lblSigno.setText("+");
+                lblSigno.setSize(lblSigno.getPreferredSize());
+            }
+            else if(e.getSource() == rbResta){
+                lblSigno.setText("-");
+                lblSigno.setSize(lblSigno.getPreferredSize());
+            }
+            else if(e.getSource() == rbMultiplicacion){
+                lblSigno.setText("x");
+                lblSigno.setSize(lblSigno.getPreferredSize());
+            }
+            else if(e.getSource() == rbDivision){
+                lblSigno.setText("/");
+                lblSigno.setSize(lblSigno.getPreferredSize());
+            }
+        }
     }
 }

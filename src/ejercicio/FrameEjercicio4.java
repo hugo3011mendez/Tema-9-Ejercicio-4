@@ -9,18 +9,51 @@ import java.io.File;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import javax.swing.filechooser.*;
+import java.text.DecimalFormat;
 
 public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListener {
+    /**
+     * Comprueba si hay números en las cajas de texto para poder realizar operaciones
+     * 
+     * @return Booleano indicando si está bien o no
+     */
+    public boolean comprobarNumeros(){
+        try { //FIXME Corregir para que admita decimales
+            // Dependiendo de los decimales que se hayan escogido en el ComboBox declaro las variables a int o a double
+            if((Integer)cbDecimales.getSelectedItem() == 0){
+                int numerostxf1, numerostxf2;
+                numerostxf1 = Integer.parseInt(txf1.getText());
+                numerostxf2 = Integer.parseInt(txf2.getText());
+            }
+            else{
+                double numerostxf1, numerostxf2;
+                numerostxf1 = Double.parseDouble(txf1.getText());
+                numerostxf2 = Double.parseDouble(txf2.getText());
+            }
+
+            return true;
+        } catch (Exception e) {
+            lblError.setText("No hay números válidos en las cajas de texto");
+            lblError.setSize(lblError.getPreferredSize());
+
+            return false;
+        }
+    }
+
     JTextField txf1, txf2;
-    JLabel lblSigno, lblResultado, lblError;
+    JLabel lblSigno, lblResultado, lblError, lblDecimales;
     JRadioButton rbSuma, rbResta, rbMultiplicacion, rbDivision;
     ButtonGroup grupoOperacion;
     JButton btnOperacion;
     JComboBox cbDecimales;
 
+    double num1, num2, resultado; // Declaro variables para los números de los TextField y el resultado
+    String resultadoTexto;
+
     public FrameEjercicio4() {
         super("Tema 9 Ejercicio 4");
         setLayout(null);
+
 
         // Creo las cajas de texto
         txf1 = new JTextField(15);
@@ -32,6 +65,7 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
         txf2.setLocation(250, 15);
         txf2.setSize(txf2.getPreferredSize());
         add(txf2);
+
 
         // Creo las etiquetas
         lblSigno = new JLabel("+");
@@ -51,6 +85,7 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
         lblError.setSize(lblError.getPreferredSize());
         lblError.setForeground(Color.RED);
         add(lblError);
+
 
         // Creo los RadioButtons con su grupo
         rbSuma = new JRadioButton("Suma");
@@ -84,17 +119,88 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
         grupoOperacion.add(rbMultiplicacion);
         grupoOperacion.add(rbDivision);
 
+
         // Creo el botón de operación
         btnOperacion = new JButton("Operación");
         btnOperacion.setLocation(270, 80);
         btnOperacion.setSize(btnOperacion.getPreferredSize());
         btnOperacion.addActionListener(this);
         add(btnOperacion);
+
+        
+        // Creo el ComboBox y su etiqueta para elegir decimales
+        cbDecimales = new JComboBox<Integer>();
+        cbDecimales.setLocation(20, 75);
+        cbDecimales.addItem(0);
+        cbDecimales.addItem(1);
+        cbDecimales.addItem(2);
+        cbDecimales.addItem(3);
+        cbDecimales.addItem(4);
+        cbDecimales.addItem(5);
+        cbDecimales.setSize(cbDecimales.getPreferredSize());
+        cbDecimales.addItemListener(this);
+        add(cbDecimales);
+
+        lblDecimales = new JLabel("Elige los decimales : ");
+        lblDecimales.setLocation(20, 40);
+        lblDecimales.setSize(lblDecimales.getPreferredSize());
+        add(lblDecimales);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == btnOperacion){
+            if(comprobarNumeros()){
+                num1 = Double.parseDouble(txf1.getText());
+                num2 = Double.parseDouble(txf2.getText());
 
+                // Le doy valor al resultado dependiendo de la operación que sea
+                if(rbSuma.isSelected()){
+                    resultado = num1 + num2;
+                }
+                else if(rbResta.isSelected()){
+                    resultado = num1 - num2;
+                }
+                else if(rbMultiplicacion.isSelected()){
+                    resultado = num1 * num2;
+                }
+                else if(rbDivision.isSelected()){
+                    resultado = num1 / num2;
+                }
+
+                // Por cada caso hago que la variable resultado tenga menos o más decimales
+                if((Integer)cbDecimales.getSelectedItem() == 0) {
+                    lblResultado.setText("= " + (int)resultado);
+                    lblResultado.setSize(lblResultado.getPreferredSize());
+                }
+                else{
+                    //FIXME Hacer bien el tema de los decimales
+                    if((Integer)cbDecimales.getSelectedItem() == 1){
+                        DecimalFormat df = new DecimalFormat("#.#");
+                        resultado = Double.parseDouble(df.format(resultado));
+                    }
+                    else if((Integer)cbDecimales.getSelectedItem() == 2){
+                        DecimalFormat df = new DecimalFormat("#.##");
+                        resultado = Double.parseDouble(df.format(resultado));
+                    }
+                    else if((Integer)cbDecimales.getSelectedItem() == 3){
+                        DecimalFormat df = new DecimalFormat("#.###");
+                        resultado = Double.parseDouble(df.format(resultado));
+                    }
+                    else if((Integer)cbDecimales.getSelectedItem() == 4){
+                        DecimalFormat df = new DecimalFormat("#.####");
+                        resultado = Double.parseDouble(df.format(resultado));
+                    }
+                    else if((Integer)cbDecimales.getSelectedItem() == 5){
+                        DecimalFormat df = new DecimalFormat("#.#####");
+                        resultado = Double.parseDouble(df.format(resultado));
+                    }
+
+                    lblResultado.setText("= " + resultado);
+                    lblResultado.setSize(lblResultado.getPreferredSize());
+                }
+            }
+        }
     }
 
     @Override

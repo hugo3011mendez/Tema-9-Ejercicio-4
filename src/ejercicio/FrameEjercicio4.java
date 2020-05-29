@@ -19,18 +19,9 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
      */
     public boolean comprobarNumeros(){
         try {
-            // Dependiendo de los decimales que se hayan escogido en el ComboBox declaro las variables a int o a double
-            if((Integer)cbDecimales.getSelectedItem() == 0){
-                int numerostxf1, numerostxf2;
-                numerostxf1 = Integer.parseInt(txf1.getText());
-                numerostxf2 = Integer.parseInt(txf2.getText());
-            }
-            else{
-                double numerostxf1, numerostxf2;
-                numerostxf1 = Double.parseDouble(txf1.getText());
-                numerostxf2 = Double.parseDouble(txf2.getText());
-            }
-
+            double numerostxf1, numerostxf2;
+            numerostxf1 = Double.parseDouble(txf1.getText());
+            numerostxf2 = Double.parseDouble(txf2.getText());
             return true;
         } catch (Exception e) {
             lblError.setText("No hay números válidos en las cajas de texto");
@@ -48,7 +39,7 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
     JComboBox cbDecimales;
 
     double num1, num2, resultado; // Declaro variables para los números de los TextField y el resultado
-    String resultadoTexto;
+    File archivoNumeros = new File(System.getProperty("user.home") + System.getProperty("file.separator") +  "T9Ejercicio2.txt");
 
     public FrameEjercicio4() {
         super("Tema 9 Ejercicio 4");
@@ -145,6 +136,14 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
         lblDecimales.setLocation(20, 40);
         lblDecimales.setSize(lblDecimales.getPreferredSize());
         add(lblDecimales);
+
+        addWindowListener(new WindowAdapter() { // Aquí programo la confirmación al salir de esta ventana usando el adaptador de WindowListener
+            public void windowClosing(WindowEvent e) {
+
+
+                e.getWindow().dispose();
+            }
+        });
     }
 
     @Override
@@ -168,32 +167,29 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
                     resultado = num1 / num2;
                 }
 
+                DecimalFormat df = new DecimalFormat();
                 // Por cada caso hago que la variable resultado tenga menos o más decimales
                 if((Integer)cbDecimales.getSelectedItem() == 0) {
-                    lblResultado.setText("= " + (int)resultado);
-                    lblResultado.setSize(lblResultado.getPreferredSize());
-                }
-                else{
-                    DecimalFormat df = new DecimalFormat();
-                    if((Integer)cbDecimales.getSelectedItem() == 1){
+                    df = new DecimalFormat("0");
+                }              
+                else if((Integer)cbDecimales.getSelectedItem() == 1){
                         df = new DecimalFormat("0.0");
-                    }
-                    else if((Integer)cbDecimales.getSelectedItem() == 2){
-                        df = new DecimalFormat("0.00");
-                    }
-                    else if((Integer)cbDecimales.getSelectedItem() == 3){
-                        df = new DecimalFormat("0.000");
-                    }
-                    else if((Integer)cbDecimales.getSelectedItem() == 4){
-                        df = new DecimalFormat("0.0000");
-                    }
-                    else if((Integer)cbDecimales.getSelectedItem() == 5){
-                        df = new DecimalFormat("0.00000");
-                    }
-
-                    lblResultado.setText("= " + df.format(resultado));
-                    lblResultado.setSize(lblResultado.getPreferredSize());
                 }
+                else if((Integer)cbDecimales.getSelectedItem() == 2){
+                    df = new DecimalFormat("0.00");
+                }
+                else if((Integer)cbDecimales.getSelectedItem() == 3){
+                    df = new DecimalFormat("0.000");
+                }
+                else if((Integer)cbDecimales.getSelectedItem() == 4){
+                    df = new DecimalFormat("0.0000");
+                }
+                else if((Integer)cbDecimales.getSelectedItem() == 5){
+                    df = new DecimalFormat("0.00000");
+                }
+
+                lblResultado.setText("= " + df.format(resultado));
+                lblResultado.setSize(lblResultado.getPreferredSize());
             }
         }
     }

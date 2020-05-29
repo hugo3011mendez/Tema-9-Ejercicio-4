@@ -18,7 +18,7 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
      * @return Booleano indicando si está bien o no
      */
     public boolean comprobarNumeros(){
-        try { //FIXME Corregir para que admita decimales
+        try {
             // Dependiendo de los decimales que se hayan escogido en el ComboBox declaro las variables a int o a double
             if((Integer)cbDecimales.getSelectedItem() == 0){
                 int numerostxf1, numerostxf2;
@@ -174,29 +174,24 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
                     lblResultado.setSize(lblResultado.getPreferredSize());
                 }
                 else{
-                    //FIXME Hacer bien el tema de los decimales
+                    DecimalFormat df = new DecimalFormat();
                     if((Integer)cbDecimales.getSelectedItem() == 1){
-                        DecimalFormat df = new DecimalFormat("#.#");
-                        resultado = Double.parseDouble(df.format(resultado));
+                        df = new DecimalFormat("0.0");
                     }
                     else if((Integer)cbDecimales.getSelectedItem() == 2){
-                        DecimalFormat df = new DecimalFormat("#.##");
-                        resultado = Double.parseDouble(df.format(resultado));
+                        df = new DecimalFormat("0.00");
                     }
                     else if((Integer)cbDecimales.getSelectedItem() == 3){
-                        DecimalFormat df = new DecimalFormat("#.###");
-                        resultado = Double.parseDouble(df.format(resultado));
+                        df = new DecimalFormat("0.000");
                     }
                     else if((Integer)cbDecimales.getSelectedItem() == 4){
-                        DecimalFormat df = new DecimalFormat("#.####");
-                        resultado = Double.parseDouble(df.format(resultado));
+                        df = new DecimalFormat("0.0000");
                     }
                     else if((Integer)cbDecimales.getSelectedItem() == 5){
-                        DecimalFormat df = new DecimalFormat("#.#####");
-                        resultado = Double.parseDouble(df.format(resultado));
+                        df = new DecimalFormat("0.00000");
                     }
 
-                    lblResultado.setText("= " + resultado);
+                    lblResultado.setText("= " + df.format(resultado));
                     lblResultado.setSize(lblResultado.getPreferredSize());
                 }
             }

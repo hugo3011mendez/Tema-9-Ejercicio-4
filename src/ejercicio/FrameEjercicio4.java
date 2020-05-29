@@ -137,19 +137,49 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
         lblDecimales.setSize(lblDecimales.getPreferredSize());
         add(lblDecimales);
 
+        if(archivoOperaciones.exists()){ // Acciones a realizar cuando se inicia la aplicación y existe el archivo de las operaciones
+            String texto;
+            try (Scanner mostrarArchivo = new Scanner(archivoOperaciones)) {  // Hago un try-with-resources para leer el archivo
+                while (mostrarArchivo.hasNext()) {
+                    texto = mostrarArchivo.nextLine();
+                    String num1 = texto.split(":")[0], num2 = texto.split(":")[2], signo = texto.split(":")[1];
+
+                    txf1.setText(num1);
+                    txf2.setText(num2);
+                    lblSigno.setText(signo);
+
+                    if(signo.equals("-")){ // Si el signo de la operación guardada y que se cargó en el programa es el de resta, se selecciona el RadioButton de Resta en vez del de Suma
+                        rbSuma.setSelected(false);
+                        rbResta.setSelected(true);
+                    }
+                    else if(signo.equals("x")){
+                        rbSuma.setSelected(false);
+                        rbMultiplicacion.setSelected(true);
+                    }
+                    else if(signo.equals("/")){
+                        rbSuma.setSelected(false);
+                        rbDivision.setSelected(true);
+                    }
+                }
+            }
+            catch (IOException e3) {
+                System.err.println("Error de acceso al archivo de operaciones");
+            }
+        }
+
         addWindowListener(new WindowAdapter() { // Aquí programo la confirmación al salir de esta ventana usando el adaptador de WindowListener
             public void windowClosing(WindowEvent e) {
                 if(!archivoOperaciones.exists()){ // Acciones a realizar si el archivo no existe
                     try (PrintWriter f = new PrintWriter(archivoOperaciones)){ // Creo el archivo
                     } catch (Exception e1) {
-                        System.err.println("Error al crear el archivo de números");
+                        System.err.println("Error al crear el archivo de operaciones");
                     }
                 }
                 
-                try (PrintWriter escribir = new PrintWriter(new FileWriter(archivoOperaciones, true))){ // Guardo los datos de la operación en el archivo
+                try (PrintWriter escribir = new PrintWriter(new FileWriter(archivoOperaciones, false))){ // Guardo los datos de la operación en el archivo sobreescribiendo los que ya estaban antes si había
                     escribir.println(txf1.getText() + ":" + lblSigno.getText() + ":" + txf2.getText());
                 } catch (IOException e2) {
-                    System.err.println("Error de acceso al archivo de números");
+                    System.err.println("Error de acceso al archivo de operaciones");
                 }    
 
                 e.getWindow().dispose();

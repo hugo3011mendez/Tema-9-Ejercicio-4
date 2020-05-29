@@ -39,7 +39,7 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
     JComboBox cbDecimales;
 
     double num1, num2, resultado; // Declaro variables para los números de los TextField y el resultado
-    File archivoNumeros = new File(System.getProperty("user.home") + System.getProperty("file.separator") +  "T9Ejercicio2.txt");
+    File archivoOperaciones = new File(System.getProperty("user.home") + System.getProperty("file.separator") +  ".T9Ejercicio4.txt"); // Creo una variable para el archivo de operaciones
 
     public FrameEjercicio4() {
         super("Tema 9 Ejercicio 4");
@@ -139,7 +139,18 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
 
         addWindowListener(new WindowAdapter() { // Aquí programo la confirmación al salir de esta ventana usando el adaptador de WindowListener
             public void windowClosing(WindowEvent e) {
-
+                if(!archivoOperaciones.exists()){ // Acciones a realizar si el archivo no existe
+                    try (PrintWriter f = new PrintWriter(archivoOperaciones)){ // Creo el archivo
+                    } catch (Exception e1) {
+                        System.err.println("Error al crear el archivo de números");
+                    }
+                }
+                
+                try (PrintWriter escribir = new PrintWriter(new FileWriter(archivoOperaciones, true))){ // Guardo los datos de la operación en el archivo
+                    escribir.println(txf1.getText() + ":" + lblSigno.getText() + ":" + txf2.getText());
+                } catch (IOException e2) {
+                    System.err.println("Error de acceso al archivo de números");
+                }    
 
                 e.getWindow().dispose();
             }

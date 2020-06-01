@@ -118,16 +118,10 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
         btnOperacion.addActionListener(this);
         add(btnOperacion);
 
-        
+        String[] nums = { "0","1","2","3","4","5" }; // Declaro un array para llenar el ComboBox 
         // Creo el ComboBox y su etiqueta para elegir decimales
-        cbDecimales = new JComboBox<Integer>();
+        cbDecimales = new JComboBox<String>(nums);
         cbDecimales.setLocation(20, 75);
-        cbDecimales.addItem(0);
-        cbDecimales.addItem(1);
-        cbDecimales.addItem(2);
-        cbDecimales.addItem(3);
-        cbDecimales.addItem(4);
-        cbDecimales.addItem(5);
         cbDecimales.setSize(cbDecimales.getPreferredSize());
         cbDecimales.addItemListener(this);
         add(cbDecimales);
@@ -222,22 +216,22 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
 
                 DecimalFormat df = new DecimalFormat();
                 // Por cada caso hago que la variable resultado tenga menos o más decimales
-                if((Integer)cbDecimales.getSelectedItem() == 0) {
+                if(cbDecimales.getSelectedItem() == "0") {
                     df = new DecimalFormat("0");
                 }              
-                else if((Integer)cbDecimales.getSelectedItem() == 1){
+                else if(cbDecimales.getSelectedItem() == "1"){
                         df = new DecimalFormat("0.0");
                 }
-                else if((Integer)cbDecimales.getSelectedItem() == 2){
+                else if(cbDecimales.getSelectedItem() == "2"){
                     df = new DecimalFormat("0.00");
                 }
-                else if((Integer)cbDecimales.getSelectedItem() == 3){
+                else if(cbDecimales.getSelectedItem() == "3"){
                     df = new DecimalFormat("0.000");
                 }
-                else if((Integer)cbDecimales.getSelectedItem() == 4){
+                else if(cbDecimales.getSelectedItem() == "4"){
                     df = new DecimalFormat("0.0000");
                 }
-                else if((Integer)cbDecimales.getSelectedItem() == 5){
+                else if(cbDecimales.getSelectedItem() == "5"){
                     df = new DecimalFormat("0.00000");
                 }
 

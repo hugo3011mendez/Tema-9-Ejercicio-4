@@ -211,7 +211,13 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
                     resultado = num1 * num2;
                 }
                 else if(rbDivision.isSelected()){
-                    resultado = num1 / num2;
+                    if(num2 == 0){
+                        lblError.setText("No se puede dividir entre 0");
+                        lblError.setSize(lblError.getPreferredSize());
+                    }
+                    else{
+                        resultado = num1 / num2;
+                    }
                 }
 
                 DecimalFormat df = new DecimalFormat();
@@ -235,8 +241,20 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
                     df = new DecimalFormat("0.00000");
                 }
 
-                lblResultado.setText("= " + df.format(resultado));
-                lblResultado.setSize(lblResultado.getPreferredSize());
+                if(rbDivision.isSelected()){
+                    if(num2 != 0){
+                        lblResultado.setText("= " + df.format(resultado)); // Actualizo la etiqueta para mostrar el resultado
+                        lblResultado.setSize(lblResultado.getPreferredSize());
+        
+                        lblError.setText(""); // Y actualizo la etiqueta de error para que no lo muestre si ha salido bien la operación    
+                    }
+                }
+                else{
+                    lblResultado.setText("= " + df.format(resultado)); // Actualizo la etiqueta para mostrar el resultado
+                    lblResultado.setSize(lblResultado.getPreferredSize());
+    
+                    lblError.setText(""); // Y actualizo la etiqueta de error para que no lo muestre si ha salido bien la operación    
+                }
             }
         }
     }

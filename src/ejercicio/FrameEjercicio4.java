@@ -142,23 +142,28 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
             try (Scanner mostrarArchivo = new Scanner(archivoOperaciones)) {  // Hago un try-with-resources para leer el archivo
                 while (mostrarArchivo.hasNext()) {
                     texto = mostrarArchivo.nextLine();
-                    String num1 = texto.split(":")[0], num2 = texto.split(":")[2], signo = texto.split(":")[1];
 
-                    txf1.setText(num1);
-                    txf2.setText(num2);
-                    lblSigno.setText(signo);
-
-                    if(signo.equals("-")){ // Si el signo de la operación guardada y que se cargó en el programa es el de resta, se selecciona el RadioButton de Resta en vez del de Suma
-                        rbSuma.setSelected(false);
-                        rbResta.setSelected(true);
-                    }
-                    else if(signo.equals("x")){
-                        rbSuma.setSelected(false);
-                        rbMultiplicacion.setSelected(true);
-                    }
-                    else if(signo.equals("/")){
-                        rbSuma.setSelected(false);
-                        rbDivision.setSelected(true);
+                    try {
+                        String num1 = texto.split(":")[0], num2 = texto.split(":")[2], signo = texto.split(":")[1];
+    
+                        txf1.setText(num1);
+                        txf2.setText(num2);
+                        lblSigno.setText(signo);
+    
+                        if(signo.equals("-")){ // Si el signo de la operación guardada y que se cargó en el programa es el de resta, se selecciona el RadioButton de Resta en vez del de Suma
+                            rbSuma.setSelected(false);
+                            rbResta.setSelected(true);
+                        }
+                        else if(signo.equals("x")){
+                            rbSuma.setSelected(false);
+                            rbMultiplicacion.setSelected(true);
+                        }
+                        else if(signo.equals("/")){
+                            rbSuma.setSelected(false);
+                            rbDivision.setSelected(true);
+                        }
+                    } catch (Exception e) {
+                        
                     }
                 }
             }
@@ -171,6 +176,7 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
             public void windowClosing(WindowEvent e) {
                 if(!archivoOperaciones.exists()){ // Acciones a realizar si el archivo no existe
                     try (PrintWriter f = new PrintWriter(archivoOperaciones)){ // Creo el archivo
+                        
                     } catch (Exception e1) {
                         System.err.println("Error al crear el archivo de operaciones");
                     }

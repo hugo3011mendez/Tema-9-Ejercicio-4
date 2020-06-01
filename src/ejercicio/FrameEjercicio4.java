@@ -214,37 +214,16 @@ public class FrameEjercicio4 extends JFrame implements ActionListener, ItemListe
                     }
                 }
 
-                DecimalFormat df = new DecimalFormat();
-                // Por cada caso hago que la variable resultado tenga menos o más decimales
-                if(cbDecimales.getSelectedItem() == "0") {
-                    df = new DecimalFormat("0");
-                }              
-                else if(cbDecimales.getSelectedItem() == "1"){
-                        df = new DecimalFormat("0.0");
-                }
-                else if(cbDecimales.getSelectedItem() == "2"){
-                    df = new DecimalFormat("0.00");
-                }
-                else if(cbDecimales.getSelectedItem() == "3"){
-                    df = new DecimalFormat("0.000");
-                }
-                else if(cbDecimales.getSelectedItem() == "4"){
-                    df = new DecimalFormat("0.0000");
-                }
-                else if(cbDecimales.getSelectedItem() == "5"){
-                    df = new DecimalFormat("0.00000");
-                }
-
                 if(rbDivision.isSelected()){
-                    if(num2 != 0){
-                        lblResultado.setText("= " + df.format(resultado)); // Actualizo la etiqueta para mostrar el resultado
+                    if(num2 != 0){ // Compruebo si no es una división entre 0
+                        lblResultado.setText(String.format("%." + cbDecimales.getSelectedIndex() + "f", resultado)); // Actualizo la etiqueta para mostrar el resultado
                         lblResultado.setSize(lblResultado.getPreferredSize());
         
                         lblError.setText(""); // Y actualizo la etiqueta de error para que no lo muestre si ha salido bien la operación    
                     }
                 }
                 else{
-                    lblResultado.setText("= " + df.format(resultado)); // Actualizo la etiqueta para mostrar el resultado
+                    lblResultado.setText(String.format("%." + cbDecimales.getSelectedIndex() + "f", resultado)); // Actualizo la etiqueta para mostrar el resultado
                     lblResultado.setSize(lblResultado.getPreferredSize());
     
                     lblError.setText(""); // Y actualizo la etiqueta de error para que no lo muestre si ha salido bien la operación    
